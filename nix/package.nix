@@ -1,4 +1,4 @@
-{ flake, buildFHSEnv, buildDotnetModule, dotnetCorePackages, git, python3, zstd }:
+{ flake, buildFHSEnv, buildDotnetModule, dotnetCorePackages, git, python3, zstd, zlib }:
 let
   rev = flake.rev or "dirty";
   dotnet-sdk = with dotnetCorePackages;
@@ -12,12 +12,12 @@ let
     projectFile = [ "SS14.Watchdog/SS14.Watchdog.csproj" ];
 
     buildType = "Release";
-    selfContainedBuild = true;
+    selfContainedBuild = false;
 
     # Generated using "fetch-deps" flake app output.
     nugetDeps = ./deps.json;
 
-    runtimeDeps = [ git python3 zstd ];
+    runtimeDeps = [ git python3 zstd zlib ];
 
     dotnet-runtime = with dotnetCorePackages;
       combinePackages [ runtime_8_0 aspnetcore_8_0 runtime_9_0 aspnetcore_9_0 ];
